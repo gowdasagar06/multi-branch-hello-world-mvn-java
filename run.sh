@@ -9,7 +9,7 @@ if [[ $run_sonar == "YES" ]]; then
 else
   echo "running maven without sonarqube"
   mvn clean verify
-  echo "Built Successfully in Development"
+  echo "Built Successfully in Pre-Prod"
 fi  
     
       

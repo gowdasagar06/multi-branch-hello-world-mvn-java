@@ -13,7 +13,7 @@ phases:
     commands:
       - echo "Making run.sh executable..."
       - chmod +x run.sh
-      - echo "Running run.sh..."    
+      - echo "Running run.sh..."      
       - ./run.sh 
 artifacts:
   files:

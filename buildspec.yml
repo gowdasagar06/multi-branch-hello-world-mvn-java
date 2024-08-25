@@ -9,7 +9,7 @@ phases:
       - curl -o sonar-scanner-cli.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
       - unzip sonar-scanner-cli.zip -d /opt
       - export PATH=$PATH:/opt/sonar-scanner-4.6.2.2472-linux/bin
-  build:
+  build:   
     commands:
       - echo "Making run.sh executable..."
       - chmod +x run.sh

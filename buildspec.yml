@@ -15,7 +15,7 @@ phases:
     commands:
       - source $CODEBUILD_SRC_DIR/tag.env
       - echo "Latest Git tag is: $TAG"
-      - if [[ "$TAG" == "your-specific-tag" ]]; then
+      - if [[ "$TAG" == "dev" ]]; then
           echo "Tag matches, running build phase...";
           chmod +x run.sh;
           ./run.sh;

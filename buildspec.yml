@@ -4,18 +4,12 @@ phases:
   install:
     runtime-versions:
       java: corretto17
-    # commands:
-    #   - echo "Installing"
-    #   - echo "Fetching latest Git tag..."
-    #   - git fetch --tags
-    #   - GIT_TAG=$(git describe --tags --abbrev=0)
-    #   - echo "Latest Git tag is: $GIT_TAG"
-    #   - echo "GIT_TAG=$GIT_TAG" > $CODEBUILD_SRC_DIR/tag.env
+
   pre_build: 
     commands:
       - echo "Installing"
       - echo "Fetching latest Git tag..."
-      - git ls-remote --tags origin
+      - git fetch --tags
       - GIT_TAG=$(git describe --tags --abbrev=0)
       - echo "Latest Git tag is: $GIT_TAG"
       - echo "GIT_TAG=$GIT_TAG" > $CODEBUILD_SRC_DIR/tag.env
@@ -23,9 +17,9 @@ phases:
   build:
     commands:
       - source $CODEBUILD_SRC_DIR/tag.env
-      - echo "Latest Git tag is: $TAG"
+      - echo "Latest Git tag is: $GIT_TAG"
       - |
-        if [[ "$TAG" == "dev" ]]; then
+        if [[ "$GIT_TAG" == "dev" ]]; then
           echo "Tag matches, running build phase..."
           chmod +x run.sh
           ./run.sh

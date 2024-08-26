@@ -5,16 +5,28 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
+      - echo "Installing"
+      - echo "Fetching latest Git tag..."
+      - TAG=$(git describe --tags --abbrev=0)
+      - echo "Latest Git tag is: $TAG"
+      - echo "TAG=$TAG" >> $CODEBUILD_SRC_DIR/tag.env
+
   build:
     commands:
-      - echo "SKIP_BUILD is set to $SKIP_BUILD"
-      - if [[ "$SKIP_BUILD" -eq "true" ]]; then
-          echo "Skipping build phase as SKIP_BUILD is set to true.";
-        else
-          echo "Running build phase...";
+      - source $CODEBUILD_SRC_DIR/tag.env
+      - echo "Latest Git tag is: $TAG"
+      - if [[ "$TAG" == "your-specific-tag" ]]; then
+          echo "Tag matches, running build phase...";
           chmod +x run.sh;
           ./run.sh;
+        else
+          echo "Tag does not match, skipping build phase.";
         fi 
+
+  post_build:
+    commands:
+      - echo "Post-build phase executed."
+
 artifacts:
   files:
     - '**/*'

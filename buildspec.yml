@@ -9,18 +9,19 @@ phases:
       - echo "Fetching latest Git tag..."
       - TAG=$(git describe --tags --abbrev=0)
       - echo "Latest Git tag is: $TAG"
-      - echo "TAG=$TAG" >> $CODEBUILD_SRC_DIR/tag.env
+      - echo "TAG=$TAG" > $CODEBUILD_SRC_DIR/tag.env
 
   build:
     commands:
       - source $CODEBUILD_SRC_DIR/tag.env
       - echo "Latest Git tag is: $TAG"
-      - if [[ "$TAG" == "dev" ]]; then
-          echo "Tag matches, running build phase...";
-          chmod +x run.sh;
-          ./run.sh;
+      - |
+        if [[ "$TAG" == "dev" ]]; then
+          echo "Tag matches, running build phase..."
+          chmod +x run.sh
+          ./run.sh
         else
-          echo "Tag does not match, skipping build phase.";
+          echo "Tag does not match, skipping build phase."
         fi 
 
   post_build:

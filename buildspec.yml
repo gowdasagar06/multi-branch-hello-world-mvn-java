@@ -9,17 +9,19 @@ phases:
       - curl -o sonar-scanner-cli.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
       - unzip sonar-scanner-cli.zip -d /opt
       - export PATH=$PATH:/opt/sonar-scanner-4.6.2.2472-linux/bin
-  build:   
+  build:
     commands:
-      - |
-        if [ "$SKIP_NEXT_STAGE" == "true" ]; then
-          echo "Skipping the next stage..."
-          exit 0
+      - if [ "$SKIP_BUILD" = "true" ]; then
+          echo "Skipping build phase as SKIP_BUILD is set to true.";
+        else
+          echo "Running build phase...";
+          chmod +x run.sh;
+          ./run.sh;
         fi
-      - echo "Making run.sh executable..."
-      - chmod +x run.sh
-      - echo "Running run.sh..."
-      - ./run.sh
+  post_build:
+    commands:
+      - echo "Post-build phase executed."
+
 artifacts:
   files:
     - '**/*'

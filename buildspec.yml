@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - echo "SKIP_BUILD is set to $SKIP_BUILD"
-      - if [ "$SKIP_BUILD" = "true" ]; then
+      - if [[ "$SKIP_BUILD" -eq "true" ]]; then
           echo "Skipping build phase as SKIP_BUILD is set to true.";
         else
           echo "Running build phase...";

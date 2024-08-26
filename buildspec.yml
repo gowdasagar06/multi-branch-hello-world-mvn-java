@@ -7,6 +7,7 @@ phases:
     commands:
       - echo "Installing"
       - echo "Fetching latest Git tag..."
+      - git fetch --tags
       - TAG=$(git describe --tags --abbrev=0)
       - echo "Latest Git tag is: $TAG"
       - echo "TAG=$TAG" > $CODEBUILD_SRC_DIR/tag.env
@@ -22,7 +23,7 @@ phases:
           ./run.sh
         else
           echo "Tag does not match, skipping build phase."
-        fi 
+        fi
 
   post_build:
     commands:

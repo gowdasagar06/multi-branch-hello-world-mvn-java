@@ -6,18 +6,15 @@ phases:
       java: corretto17
     commands:
   build:
-    commands:    
-      - |
-        if [ "$SKIP_NEXT_STAGE" == "true" ]; then
-          echo "Skipping the next stage..."
-          exit 0
-        fi
-      - echo "Running the build script..."
-      - echo "Making run.sh executable..."
-      - chmod +x run.sh
-      - echo "Running run.sh..."      
-      - ./run.sh    
+    commands:
+      - echo "SKIP_BUILD is set to $SKIP_BUILD"
+      - if [[ "$SKIP_BUILD" -eq "true" ]]; then
+          echo "Skipping build phase as SKIP_BUILD is set to true.";
+        else
+          echo "Running build phase...";
+          chmod +x run.sh;
+          ./run.sh;
+        fi 
 artifacts:
   files:
     - '**/*'
-  

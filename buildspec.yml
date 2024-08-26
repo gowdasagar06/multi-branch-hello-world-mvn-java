@@ -15,7 +15,7 @@ phases:
     commands:
       - echo "Installing"
       - echo "Fetching latest Git tag..."
-      - git fetch --tags
+      - git ls-remote --tags origin
       - GIT_TAG=$(git describe --tags --abbrev=0)
       - echo "Latest Git tag is: $GIT_TAG"
       - echo "GIT_TAG=$GIT_TAG" > $CODEBUILD_SRC_DIR/tag.env

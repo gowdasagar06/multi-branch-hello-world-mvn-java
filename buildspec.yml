@@ -13,7 +13,7 @@ phases:
     #   - echo "GIT_TAG=$GIT_TAG" > $CODEBUILD_SRC_DIR/tag.env
   pre_build: 
     commands:
-      - echo "Installing"
+      - echo "Installing"    
       - echo "Fetching latest Git tag..."
       - git fetch --tags
       - GIT_TAG=$(git describe --tags --abbrev=0)

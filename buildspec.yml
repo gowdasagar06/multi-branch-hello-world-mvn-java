@@ -14,7 +14,7 @@ phases:
   pre_build: 
     commands:
       - echo "Installing"    
-      - echo "Fetching latest Git tag..."
+      - echo "Fetching latest Git tag..."   
       - git fetch --tags
       - GIT_TAG=$(git describe --tags --abbrev=0)
       - echo "Latest Git tag is: $GIT_TAG"

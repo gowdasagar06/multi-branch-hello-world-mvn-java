@@ -40,13 +40,6 @@ phases:
   build:
     commands:
       - echo "SKIP_BUILD is set to $SKIP_BUILD"
-      - echo "$new"
-      - echo "CODEBUILD_SRC_DIR -> $CODEBUILD_SRC_DIR"
-      - cd $CODEBUILD_SRC_DIR
-
-      # Here you can add your build commands, e.g., mvn clean install
-      # - mvn clean install
-
       # Check if LATEST_BRANCH is "labs"
       - |
         if [ "$LATEST_BRANCH" == "labs" ]; then

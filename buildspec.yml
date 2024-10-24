@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - echo "SKIP_BUILD is set to $SKIP_BUILD"
-      - echo "$Branch"
+      - echo "$new"
 artifacts:
   files:
     - '**/*'

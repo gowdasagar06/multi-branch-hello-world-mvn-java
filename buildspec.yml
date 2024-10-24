@@ -34,7 +34,7 @@ phases:
 
       # Get the branch name containing the latest commit
       - |
-        LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
+        LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | grep -v 'HEAD' | sed -e 's/^[* ]*//')
         echo "Branch containing the latest commit: $LATEST_BRANCH"
 
   build:

@@ -12,6 +12,7 @@ phases:
       - echo "SKIP_BUILD is set to $SKIP_BUILD"
       - echo "$new"
       - echo "CODEBUILD_SRC_DIR -> $CODEBUILD_SRC_DIR"
+      - cd $CODEBUILD_SRC_DIR
 
       # Get commit timestamps for branches (assuming env vars Branch1 and Branch2 store commit hashes)
       - echo "Getting commit timestamps for branches..."

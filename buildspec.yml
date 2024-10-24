@@ -25,13 +25,12 @@ phases:
       # - echo "Timestamp for commit $Branch1: $TIMESTAMP1"
       # - echo "Timestamp for commit $Branch2: $TIMESTAMP2"
 
-      # Compare the timestamps to find the latest commit
-      - if [[ "$TIMESTAMP1" > "$TIMESTAMP2" ]]; then LATEST_COMMIT=$Branch1; else LATEST_COMMIT=$Branch2; fi
-      - echo "Latest commit is $LATEST_COMMIT"
+      # - if [[ "$TIMESTAMP1" > "$TIMESTAMP2" ]]; then LATEST_COMMIT=$Branch1; else LATEST_COMMIT=$Branch2; fi
+      # - echo "Latest commit is $LATEST_COMMIT"
 
-      # Get the branch name containing the latest commit
-      - LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
-      - echo "Branch containing the latest commit: $LATEST_BRANCH"
+      # # Get the branch name containing the latest commit
+      # - LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
+      # - echo "Branch containing the latest commit: $LATEST_BRANCH"
 
 artifacts:
   files:

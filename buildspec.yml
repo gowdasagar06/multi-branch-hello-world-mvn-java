@@ -7,14 +7,8 @@ phases:
     commands:
       - echo "Installing dependencies..."
 
-  build:
+  pre_build:
     commands:
-      - echo "SKIP_BUILD is set to $SKIP_BUILD"
-      - echo "$new"
-      - echo "CODEBUILD_SRC_DIR -> $CODEBUILD_SRC_DIR"
-      - cd $CODEBUILD_SRC_DIR
-
-      # Get commit timestamps for branches
       - echo "Getting commit timestamps for branches..."
       - |
         TIMESTAMP1=$(git show -s --format=%ci $Branch1)
@@ -42,6 +36,24 @@ phases:
       - |
         LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
         echo "Branch containing the latest commit: $LATEST_BRANCH"
+
+  build:
+    commands:
+      - echo "SKIP_BUILD is set to $SKIP_BUILD"
+      - echo "$new"
+      - echo "CODEBUILD_SRC_DIR -> $CODEBUILD_SRC_DIR"
+      - cd $CODEBUILD_SRC_DIR
+
+      # Here you can add your build commands, e.g., mvn clean install
+      # - mvn clean install
+
+      # Check if LATEST_BRANCH is "labs"
+      - |
+        if [ "$LATEST_BRANCH" == "labs" ]; then
+          echo "Deployed successfully!"
+        else
+          echo "Skip Deployment"
+        fi
 
 artifacts:
   files:

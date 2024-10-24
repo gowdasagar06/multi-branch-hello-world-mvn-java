@@ -4,17 +4,19 @@ phases:
   install:
     runtime-versions:
       java: corretto17
+
+  pre_build: 
     commands:
+      - echo "Installing"
+
   build:
     commands:
-      - echo "SKIP_BUILD is set to $SKIP_BUILD"
-      - if [[ "$SKIP_BUILD" -eq "true" ]]; then
-          echo "Skipping build phase as SKIP_BUILD is set to true.";
-        else
-          echo "Running build phase...";
-          chmod +x run.sh;
-          ./run.sh;
-        fi 
+      - echo "Build phase executed."
+  
+  post_build:
+    commands:
+      - echo "Deploy to $STAGE Environment"
+
 artifacts:
   files:
     - '**/*'

@@ -14,23 +14,30 @@ phases:
       - echo "CODEBUILD_SRC_DIR -> $CODEBUILD_SRC_DIR"
       - cd $CODEBUILD_SRC_DIR
 
-      # Get commit timestamps for branches (assuming env vars Branch1 and Branch2 store commit hashes)
+      # Get commit timestamps for branches
       - echo "Getting commit timestamps for branches..."
       - TIMESTAMP1=$(git show -s --format=%ci $Branch1)
       - TIMESTAMP2=$(git show -s --format=%ci $Branch2)
-      - echo "$Branch1"
-      - echo "$Branch2"
-      - echo "$TIMESTAMP1"
-      - echo "$TIMESTAMP2"
-      # - echo "Timestamp for commit $Branch1: $TIMESTAMP1"
-      # - echo "Timestamp for commit $Branch2: $TIMESTAMP2"
+      - echo "Timestamp for commit $Branch1: $TIMESTAMP1"
+      - echo "Timestamp for commit $Branch2: $TIMESTAMP2"
 
-      # - if [[ "$TIMESTAMP1" > "$TIMESTAMP2" ]]; then LATEST_COMMIT=$Branch1; else LATEST_COMMIT=$Branch2; fi
-      # - echo "Latest commit is $LATEST_COMMIT"
+      # Convert timestamps to seconds since epoch for comparison
+      - TIMESTAMP1_EPOCH=$(date -d "$TIMESTAMP1" +%s)
+      - TIMESTAMP2_EPOCH=$(date -d "$TIMESTAMP2" +%s)
 
-      # # Get the branch name containing the latest commit
-      # - LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
-      # - echo "Branch containing the latest commit: $LATEST_BRANCH"
+      # Compare the timestamps to find the latest commit
+      - if [ "$TIMESTAMP1_EPOCH" -gt "$TIMESTAMP2_EPOCH" ]; then
+          LATEST_COMMIT=$Branch1;
+          LATEST_TIMESTAMP=$TIMESTAMP1;
+        else
+          LATEST_COMMIT=$Branch2;
+          LATEST_TIMESTAMP=$TIMESTAMP2;
+        fi
+      - echo "Latest commit is $LATEST_COMMIT with timestamp $LATEST_TIMESTAMP"
+
+      # Get the branch name containing the latest commit
+      - LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
+      - echo "Branch containing the latest commit: $LATEST_BRANCH"
 
 artifacts:
   files:

@@ -5,17 +5,29 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
+      - echo "Installing dependencies..."
+
   build:
     commands:
       - echo "SKIP_BUILD is set to $SKIP_BUILD"
       - echo "$new"
       - echo "CODEBUILD_SRC_DIR -> $CODEBUILD_SRC_DIR"
-      - echo "CODEBUILD_WEBHOOK_BASE_REF -> $CODEBUILD_WEBHOOK_BASE_REF"
-      - echo "CODEBUILD_WEBHOOK_EVENT -> $CODEBUILD_WEBHOOK_EVENT"
-      - echo "CODEBUILD_WEBHOOK_MERGE_COMMIT -> $CODEBUILD_WEBHOOK_MERGE_COMMIT"
-      - echo "CODEBUILD_WEBHOOK_PREV_COMMIT -> $CODEBUILD_WEBHOOK_PREV_COMMIT"
-      - echo "CODEBUILD_WEBHOOK_HEAD_REF -> $CODEBUILD_WEBHOOK_HEAD_REF"
-      - echo "CODEBUILD_WEBHOOK_TRIGGER -> $CODEBUILD_WEBHOOK_TRIGGER"
+      
+      # Get commit hashes from the branches (assuming env vars Branch1 and Branch2 store commit hashes)
+      - echo "Getting commit timestamps for branches..."
+      - TIMESTAMP1=$(git show -s --format=%ci $Branch1)
+      - TIMESTAMP2=$(git show -s --format=%ci $Branch2)
+      - echo "Timestamp for commit $Branch1: $TIMESTAMP1"
+      - echo "Timestamp for commit $Branch2: $TIMESTAMP2"
+
+      # Compare the timestamps to find the latest commit
+      - if [[ "$TIMESTAMP1" > "$TIMESTAMP2" ]]; then LATEST_COMMIT=$Branch1; else LATEST_COMMIT=$Branch2; fi
+      - echo "Latest commit is $LATEST_COMMIT"
+
+      # Get the branch name containing the latest commit
+      - LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
+      - echo "Branch containing the latest commit: $LATEST_BRANCH"
+
 artifacts:
   files:
     - '**/*'

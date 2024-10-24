@@ -16,28 +16,32 @@ phases:
 
       # Get commit timestamps for branches
       - echo "Getting commit timestamps for branches..."
-      - TIMESTAMP1=$(git show -s --format=%ci $Branch1)
-      - TIMESTAMP2=$(git show -s --format=%ci $Branch2)
-      - echo "Timestamp for commit $Branch1: $TIMESTAMP1"
-      - echo "Timestamp for commit $Branch2: $TIMESTAMP2"
+      - |
+        TIMESTAMP1=$(git show -s --format=%ci $Branch1)
+        TIMESTAMP2=$(git show -s --format=%ci $Branch2)
+        echo "Timestamp for commit $Branch1: $TIMESTAMP1"
+        echo "Timestamp for commit $Branch2: $TIMESTAMP2"
 
       # Convert timestamps to seconds since epoch for comparison
-      - TIMESTAMP1_EPOCH=$(date -d "$TIMESTAMP1" +%s)
-      - TIMESTAMP2_EPOCH=$(date -d "$TIMESTAMP2" +%s)
+      - |
+        TIMESTAMP1_EPOCH=$(date -d "$TIMESTAMP1" +%s)
+        TIMESTAMP2_EPOCH=$(date -d "$TIMESTAMP2" +%s)
 
       # Compare the timestamps to find the latest commit
-      - if [ "$TIMESTAMP1_EPOCH" -gt "$TIMESTAMP2_EPOCH" ]; then
+      - |
+        if [ "$TIMESTAMP1_EPOCH" -gt "$TIMESTAMP2_EPOCH" ]; then
           LATEST_COMMIT=$Branch1;
           LATEST_TIMESTAMP=$TIMESTAMP1;
         else
           LATEST_COMMIT=$Branch2;
           LATEST_TIMESTAMP=$TIMESTAMP2;
         fi
-      - echo "Latest commit is $LATEST_COMMIT with timestamp $LATEST_TIMESTAMP"
+        echo "Latest commit is $LATEST_COMMIT with timestamp $LATEST_TIMESTAMP"
 
       # Get the branch name containing the latest commit
-      - LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
-      - echo "Branch containing the latest commit: $LATEST_BRANCH"
+      - |
+        LATEST_BRANCH=$(git branch --contains $LATEST_COMMIT | sed -e 's/^[* ]*//')
+        echo "Branch containing the latest commit: $LATEST_BRANCH"
 
 artifacts:
   files:
